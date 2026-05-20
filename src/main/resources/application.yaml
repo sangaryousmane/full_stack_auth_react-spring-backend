@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: Aether Entity Relationship Planning
+
+  datasource:
+    username: postgres
+    password: 831800
+    url: jdbc:postgresql://localhost:5432/aethererpdb
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    password: phon uzqb nyir tdbx
+    username: sangaryousmane@gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          from: sangaryousmane@gmail.com
+          starttls:
+             enable: true
+    protocol: smtp
+
+server:
+  servlet:
+    context-path: /api/v1.0
+jwt:
+  secret:
+    key: lifehasbeenoneofthebestteacherseverinmankindjourney
