@@ -18,7 +18,7 @@ This project demonstrates a secure authentication workflow using JWT (JSON Web T
 * REST API architecture
 * CORS configuration
 * Exception handling
-* MySQL/PostgreSQL database support
+* PostgreSQL database support
 * Maven project structure
 
 ## Frontend (React)

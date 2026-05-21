@@ -33,7 +33,7 @@ public class EmailService {
         message.setTo(toEmail);
         message.setSubject("Password Reset OTP");
         message.setText("Your OTP for resetting your password is "+ otp+ ". " +
-                "Use this OTP to proceed with resetting your password");
+                "Use this OTP to proceed with resetting your password\n\nRegards, \nAether Team!");
         mailSender.send(message);
     }
 }
