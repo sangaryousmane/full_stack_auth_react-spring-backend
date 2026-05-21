@@ -68,6 +68,29 @@ public class ProfileServiceImpl implements ProfileService{
         }
     }
 
+    @Override
+    public void resetPassword(String email, String otp, String newPassword) {
+       UserEntity existingUser= userRepo.findByEmail(email)
+               .orElseThrow(() -> new UsernameNotFoundException("User email not found: " + email));
+
+       // Check if the otp is null or the existing otp is not equal to the provided one
+        if (existingUser.getResetOTP() == null || !existingUser.getResetOTP().equals(otp)){
+            throw new RuntimeException("Invalid OTP");
+        }
+
+        if (existingUser.getResetOTPExpiredAt() < System.currentTimeMillis()){
+            throw new RuntimeException("OTP Expired.");
+        }
+
+        existingUser.setPassword(passwordEncoder.encode(newPassword));
+        existingUser.setResetOTP(null);
+        existingUser.setResetOTPExpiredAt(0L);
+
+        // resave user back to the database
+        userRepo.save(existingUser);
+
+    }
+
     // TODO: This method takes a database entity and convert it back into a restful response to reduce load and frequent requests on the database.
     private ProfileResponse convertToProfileResponse(UserEntity newProfile) {
         return ProfileResponse.builder()

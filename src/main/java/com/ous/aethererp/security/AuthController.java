@@ -85,6 +85,7 @@ public class AuthController {
         }
     }
 
+
     private void authenticate(String email, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
     }
