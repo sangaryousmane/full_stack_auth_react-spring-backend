@@ -116,7 +116,9 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public void verifyOTP(String userId, String otp) {
+    public void verifyOTP(String email, String otp) {
+        UserEntity existingUser = userRepo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 
     }
 
