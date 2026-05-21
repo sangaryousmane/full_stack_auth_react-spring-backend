@@ -36,4 +36,14 @@ public class EmailService {
                 "Use this OTP to proceed with resetting your password\n\nRegards, \nAether Team!");
         mailSender.send(message);
     }
+
+    // Send email for verifying OTP
+    public void sendOTPEmail(String toEmail, String otp){
+        SimpleMailMessage message=new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(toEmail);
+        message.setSubject("Account Verification OTP");
+        message.setText("Your OTP is "+otp+". Verify your account using this OTP");
+        mailSender.send(message);
+    }
 }

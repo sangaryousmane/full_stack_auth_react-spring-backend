@@ -113,6 +113,12 @@ public class ProfileServiceImpl implements ProfileService{
 
         // Save the data into the database
         userRepo.save(existingUser);
+
+        try{
+            emailService.sendOTPEmail(existingUser.getEmail(), otp);
+        } catch (Exception e){
+            throw new RuntimeException("Unable to send email ");
+        }
     }
 
     @Override
@@ -120,11 +126,26 @@ public class ProfileServiceImpl implements ProfileService{
         UserEntity existingUser = userRepo.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 
+        if (existingUser.getVerifyOTP() == null || !existingUser.getVerifyOTP().equals(otp)){
+            throw new RuntimeException("Invalid OTP");
+        }
+
+        if (existingUser.getResetOTPExpiredAt() < System.currentTimeMillis()){
+            throw new RuntimeException("OTP Expired.");
+        }
+
+        existingUser.setIsAccountVerified(true);
+        existingUser.setVerifyOTP(null);
+        existingUser.setVerifyExpiredAt(0L);
+        userRepo.save(existingUser);
     }
 
     @Override
     public String getLoggedInUserId(String email) {
-        return null;
+       UserEntity existingUser = userRepo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User Email Not Found"));
+
+        return existingUser.getUserId();
     }
 
     // TODO: This method takes a database entity and convert it back into a restful response to reduce load and frequent requests on the database.
