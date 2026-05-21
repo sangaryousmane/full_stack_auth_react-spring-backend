@@ -105,6 +105,18 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/verify-otp")
+    public void verifyEmail(@RequestBody Map<String, Object> request,
+                            @CurrentSecurityContext(expression = "authentication.name") String email){
+
+
+        try{
+            profileService.verifyOTP(email, request.get("otp").toString());
+        } catch (Exception e){
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
     private void authenticate(String email, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
     }
