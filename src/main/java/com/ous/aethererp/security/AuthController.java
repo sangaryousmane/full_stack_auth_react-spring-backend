@@ -3,13 +3,12 @@ package com.ous.aethererp.security;
 
 import com.ous.aethererp.io.AuthRequest;
 import com.ous.aethererp.io.AuthResponse;
+import com.ous.aethererp.io.ResetPasswordRequest;
 import com.ous.aethererp.service.ProfileService;
 import com.ous.aethererp.jwtUtils.JWTUtils;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -23,8 +22,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.HttpStatus.*;
 
 
 @RestController
@@ -93,6 +91,17 @@ public class AuthController {
                     request.getOtp(), request.getNewPassword());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/send-otp")
+    public void sendVerifyOTP(@CurrentSecurityContext(expression = "authentication?.name") String email){
+
+        try {
+            profileService.sendOTP(email);
+        } catch (Exception e){
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

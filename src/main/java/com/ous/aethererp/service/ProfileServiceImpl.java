@@ -88,7 +88,41 @@ public class ProfileServiceImpl implements ProfileService{
 
         // resave user back to the database
         userRepo.save(existingUser);
+    }
 
+    @Override
+    public void sendOTP(String email) {
+        UserEntity existingUser = userRepo.findByEmail(email)
+                .orElseThrow(()  -> new UsernameNotFoundException("User not found: "+ email));
+
+        if (existingUser.getIsAccountVerified() != null && existingUser.getIsAccountVerified()){
+            return;
+        }
+
+        // Generate 6 digits otp
+        String otp = String.valueOf(ThreadLocalRandom.current().nextInt(
+                100000, 1000000));
+
+        // Calculate expiry time (current time 15 mins in milliseconds)
+        long expiryTime = System.currentTimeMillis() + (24 * 60 * 60 * 1000);
+
+
+        // Update the profile / user
+        existingUser.setVerifyOTP(otp);
+        existingUser.setVerifyExpiredAt(expiryTime);
+
+        // Save the data into the database
+        userRepo.save(existingUser);
+    }
+
+    @Override
+    public void verifyOTP(String userId, String otp) {
+
+    }
+
+    @Override
+    public String getLoggedInUserId(String email) {
+        return null;
     }
 
     // TODO: This method takes a database entity and convert it back into a restful response to reduce load and frequent requests on the database.
