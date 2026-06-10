@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProfileController {
 
-
     private final ProfileService profileService;
     private final EmailService emailService;
 
@@ -28,6 +27,7 @@ public class ProfileController {
         return profile;
     }
 
+
     @GetMapping("/profile")
     public ProfileResponse getProfileDetails(
             @CurrentSecurityContext(expression = "authentication?.name") String email){
@@ -39,7 +39,6 @@ public class ProfileController {
     public String hello(){
         return "Auth is working";
     }
-
 
 }
 
