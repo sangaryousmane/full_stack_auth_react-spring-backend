@@ -34,7 +34,6 @@ This project demonstrates a secure authentication workflow using JWT (JSON Web T
 ---
 
 # Tech Stack
-
 ## Backend
 
 * Java

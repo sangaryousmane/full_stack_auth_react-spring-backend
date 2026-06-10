@@ -33,13 +33,13 @@ public class UserEntity {
     private String verifyOTP;
     private Boolean isAccountVerified;
     private Long verifyExpiredAt;
-    private String resetOTP;
-    private Long resetOTPExpiredAt;
+    private String resetOTP; // Password reset otp, use for forgot password
+    private Long resetOTPExpiredAt; // Stores reset OTP expiration timestamp.
 
     @CreationTimestamp
-    @Column(updatable = false)
-    private Timestamp createdAt;
+    @Column(updatable = false) // once created, it can never be changed, keeping track of the original creation date
+    private Timestamp createdAt; // Automatically stores when a record is created.
 
     @UpdateTimestamp
-    private Timestamp updatedAt;
+    private Timestamp updatedAt; // Tracks the last modification time.
 }

@@ -29,7 +29,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             "/send-reset-otp", "/reset-password", "/logout");
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         String path = request.getServletPath();
 
         if (PUBLIC_URLS.contains(path)){
@@ -44,7 +45,6 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         final String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
             jwt = authorizationHeader.substring(7);
-
         }
 
         // 2. If not found in header, check cookies
