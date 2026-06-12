@@ -37,13 +37,13 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    // Send email for verifying OTP
+    // Send email for verifying account OTP
     public void sendOTPEmail(String toEmail, String otp){
         SimpleMailMessage message=new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(toEmail);
         message.setSubject("Account Verification OTP");
-        message.setText("Your OTP is "+otp+". Verify your account using this OTP");
+        message.setText("Your One Time Password (OTP) is "+otp+". Verify your account using this OTP");
         mailSender.send(message);
     }
 }

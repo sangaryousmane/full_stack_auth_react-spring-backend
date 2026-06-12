@@ -71,9 +71,22 @@ public class AuthController {
     @GetMapping("/is-authenticated")
     public ResponseEntity<Boolean> isAuthenticated(
             @CurrentSecurityContext(expression = "authentication?.name") String email){
-        return ResponseEntity.ok(!(email == null));
+        return ResponseEntity.ok(!(email == null)); // A user is verify if the email is not null
     }
 
+
+    // OTP for verifying your account
+    @PostMapping("/send-otp")
+    public void sendVerifyOTP(@CurrentSecurityContext(expression = "authentication?.name") String email){
+
+        try {
+            profileService.sendOTP(email);
+        } catch (Exception e){
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    // OTP for resetting your password
     @PostMapping("/send-reset-otp")
     public void sendResetOTP(@RequestParam String email){
         try {
@@ -83,6 +96,7 @@ public class AuthController {
         }
     }
 
+    // Send password request
     @PostMapping("/reset-password")
     public void sendResetPassword(
             @Valid @RequestBody ResetPasswordRequest request){
@@ -91,17 +105,6 @@ public class AuthController {
                     request.getOtp(), request.getNewPassword());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-    }
-
-
-    @PostMapping("/send-otp")
-    public void sendVerifyOTP(@CurrentSecurityContext(expression = "authentication?.name") String email){
-
-        try {
-            profileService.sendOTP(email);
-        } catch (Exception e){
-            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
