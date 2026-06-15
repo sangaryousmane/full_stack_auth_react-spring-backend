@@ -1,6 +1,5 @@
 package com.ous.aethererp.service;
 
-
 import com.ous.aethererp.entity.UserEntity;
 import com.ous.aethererp.io.ProfileRequest;
 import com.ous.aethererp.io.ProfileResponse;
@@ -43,7 +42,7 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public void sendResetOTP(String email) {
+    public void sendPasswordResetOTP(String email) {
         UserEntity existingUserByEmail = userRepo.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found " + email));
 

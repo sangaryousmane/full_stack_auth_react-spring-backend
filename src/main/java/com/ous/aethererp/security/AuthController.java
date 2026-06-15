@@ -75,7 +75,7 @@ public class AuthController {
     @GetMapping("/is-authenticated")
     public ResponseEntity<Boolean> isAuthenticated(
             @CurrentSecurityContext(expression = "authentication?.name") String email){
-        return ResponseEntity.ok(!(email == null)); // A user is verify if the email is not null
+        return ResponseEntity.ok(!(email == null)); // A user is verified if the email is not null
     }
 
 
@@ -91,10 +91,10 @@ public class AuthController {
     }
 
     // OTP for resetting your password
-    @PostMapping("/send-reset-otp")
-    public void sendResetOTP(@RequestParam String email){
+    @PostMapping("/send-reset-password-otp")
+    public void sendPasswordResetOTP(@RequestParam String email){
         try {
-            profileService.sendResetOTP(email);
+            profileService.sendPasswordResetOTP(email);
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
