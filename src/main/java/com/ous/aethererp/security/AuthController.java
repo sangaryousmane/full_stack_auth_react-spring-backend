@@ -6,6 +6,8 @@ import com.ous.aethererp.io.AuthResponse;
 import com.ous.aethererp.io.ResetPasswordRequest;
 import com.ous.aethererp.service.ProfileService;
 import com.ous.aethererp.jwtUtils.JWTUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -27,6 +29,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Authentication API")
 public class AuthController {
 
 
@@ -36,6 +39,7 @@ public class AuthController {
     private final ProfileService profileService;
 
 
+    @Operation(summary = "Login User", description = "Login, Authenticate and return JWT token")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
@@ -49,8 +53,8 @@ public class AuthController {
                     .sameSite("Strict").build();
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                     .body(new AuthResponse(request.getEmail(), jtwToken));
-
-        } catch (BadCredentialsException ex) {
+        }
+        catch (BadCredentialsException ex) {
             Map<String, Object> err = new HashMap<>();
             err.put("error", true);
             err.put("message", "Email or password is incorrect.");
