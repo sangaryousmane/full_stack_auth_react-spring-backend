@@ -27,7 +27,7 @@ spring:
 
 server:
   servlet:
-    context-path: /api/v1.0
+    context-path: /api/v1
 jwt:
   secret:
     key: lifehasbeenoneofthebestteacherseverinmankindjourney
