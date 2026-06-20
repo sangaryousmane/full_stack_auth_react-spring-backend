@@ -28,12 +28,16 @@ import java.util.List;
 public class AetherERPSecurityConfig {
 
 
-    private final String[] PUBLIC_URI = {
-            "/register", "/login",
-            "/send-reset-otp", "/reset-password",
-            "/logout", "/swagger-ui/**",
+    private static final String[] PUBLIC_URLS = {
+            "/register",
+            "/login",
+            "/send-reset-otp",
+            "/reset-password",
+            "/logout",
+            "/swagger-ui/**",
             "/v3/api-docs/**",
-            "/swagger-ui.html"};
+            "/swagger-ui.html"
+    };
     private final AppUserDetailService userDetailService;
     private final JWTRequestFilter jWTRequestFilter;
     private final CustomAuthenticationEntryPoint authEntryPoint;
@@ -45,7 +49,7 @@ public class AetherERPSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers(
-                                PUBLIC_URI).permitAll()
+                                        PUBLIC_URLS).permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -65,7 +69,7 @@ public class AetherERPSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config=new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:8080"));
+        config.setAllowedOrigins(List.of("http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of(
                 "Authorization",
