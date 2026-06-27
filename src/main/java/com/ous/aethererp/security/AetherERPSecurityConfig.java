@@ -57,7 +57,6 @@ public class AetherERPSecurityConfig {
                                         HttpMethod.OPTIONS,
                                         "/**"
                                 ).permitAll()
-                                        PUBLIC_URLS).permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

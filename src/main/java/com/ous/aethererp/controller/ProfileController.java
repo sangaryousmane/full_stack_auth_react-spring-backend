@@ -35,6 +35,7 @@ public class ProfileController {
     @GetMapping("/profile")
     public ProfileResponse getProfileDetails(
             @CurrentSecurityContext(expression = "authentication?.name") String email){
+        if (email == null) throw new RuntimeException("Email is unavailable.");
     return profileService.getProfile(email);
     }
 
