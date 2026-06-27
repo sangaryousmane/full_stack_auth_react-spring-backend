@@ -29,6 +29,16 @@ import java.util.List;
 public class AetherERPSecurityConfig {
 
 
+    private static final String[] PUBLIC_URLS = {
+            "/register",
+            "/login",
+            "/send-reset-otp",
+            "/reset-password",
+            "/logout",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-ui.html"
+    };
     private final AppUserDetailService userDetailService;
     private final JWTRequestFilter jWTRequestFilter;
     private final CustomAuthenticationEntryPoint authEntryPoint;
@@ -47,8 +57,10 @@ public class AetherERPSecurityConfig {
                                         HttpMethod.OPTIONS,
                                         "/**"
                                 ).permitAll()
+                                        PUBLIC_URLS).permitAll()
                                 .anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
