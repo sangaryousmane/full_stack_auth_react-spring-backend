@@ -6,6 +6,7 @@ import com.ous.aethererp.io.AuthResponse;
 import com.ous.aethererp.io.ResetPasswordRequest;
 import com.ous.aethererp.service.ProfileService;
 import com.ous.aethererp.jwtUtils.JWTUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -119,6 +120,20 @@ public class AuthController {
 
     private void authenticate(String email, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response){
+        ResponseCookie cookie= ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .sameSite("Strict")
+                .build();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.COOKIE, cookie.toString())
+                .body("Logged out successfully");
     }
 
 }
