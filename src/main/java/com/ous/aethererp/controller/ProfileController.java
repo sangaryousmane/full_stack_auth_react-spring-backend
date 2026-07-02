@@ -4,8 +4,6 @@ import com.ous.aethererp.io.ProfileRequest;
 import com.ous.aethererp.io.ProfileResponse;
 import com.ous.aethererp.service.EmailService;
 import com.ous.aethererp.service.ProfileService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,13 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Profile API")
 public class ProfileController {
 
     private final ProfileService profileService;
     private final EmailService emailService;
 
-    @Operation(summary = "Register User", description = "Creates New User's Profile")
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public ProfileResponse register(@Valid @RequestBody ProfileRequest request){

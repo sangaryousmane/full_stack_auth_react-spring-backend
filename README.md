@@ -87,6 +87,7 @@ cd full_stack_auth_system
 
 # Backend Setup
 
+
 ## Run Backend
 
 ```bash
@@ -131,192 +132,18 @@ http://localhost:3000
 
 # API Endpoints
 
-AetherERP Authentication API Documentation
-Base URL
-```text
-http://localhost:8080
-```
-This document explains the available authentication and profile endpoints and how to test them using Postman.
----
-1. Register User
-   Endpoint
-```http
-POST /register
-```
-Request
-```json
-{
-  "name": "Ousmane Sangary",
-  "email": "ousmane@gmail.com",
-  "password": "password123"
-}
-```
-Response
-```json
-{
-  "userId": "generated-uuid",
-  "name": "Ousmane Sangary",
-  "email": "ousmane@gmail.com",
-  "isAccountVerified": false
-}
-```
-What happens:
-- Validates request
-- Encrypts password
-- Stores user
-- Sends welcome email
----
-2. Login
-   Endpoint
-```http
-POST /login
-```
-Request
-```json
-{
-  "email": "ousmane@gmail.com",
-  "password": "password123"
-}
-```
-Response
-```json
-{
-  "email": "ousmane@gmail.com",
-  "token": "JWT_TOKEN"
-}
-```
-What happens:
-- Authenticate user
-- Load user details
-- Generate JWT
-- Set HTTP-only cookie
-- Return JWT token
----
-3. Get Profile
-   Endpoint
-```http
-GET /profile
-```
-Authorization
-```http
-Authorization: Bearer JWT_TOKEN
-```
-Response
-```json
-{
-  "userId": "generated-uuid",
-  "name": "Ousmane Sangary",
-  "email": "ousmane@gmail.com",
-  "isAccountVerified": false
-}
-```
----
-4. Check Authentication
-   Endpoint
-```http
-GET /is-authenticated
-```
-Response
-```json
-true
-```
----
-5. Send Reset OTP
-   Endpoint
-```http
-POST /send-reset-otp?email=user@gmail.com
-```
-No request body.
+## Authentication
 
-What happens:
-- Generate OTP
-- Save OTP
-- Save expiration time
-- Send email
----
-6. Reset Password
-   Endpoint
-```http
-POST /reset-password
-```
-Request
-```json
-{
-  "email": "ousmane@gmail.com",
-  "otp": "482913",
-  "newPassword": "newpassword123"
-}
-```
-What happens:
-- Validate OTP 
-- Verify expiration 
-- Encrypt new password 
-- Update account
----
-7. Send Verification OTP
-   Endpoint
-```http
-POST /send-otp
-```
-Authorization
-```http
-Authorization: Bearer JWT_TOKEN
-```
-What happens:
-- Generate verification OTP 
-- Store OTP 
-- Send email
----
-8. Verify Email
-   Endpoint
-```http
-POST /verify-otp
-```
-Request
-```json
-{
-  "otp": "981236"
-}
-```
-What happens:
-- Validate OTP 
-- Verify expiration 
-- Activate account
----
-9. Test Endpoint
-   Endpoint
-```http
-GET /test
-```
-Response
-```text
-Auth is working
-```
----
-Postman Testing Flow 
-1. Register 
-2. Login 
-3. Copy JWT and Add Bearer Token 
-4. Test `/profile`
-5. Test `/is-authenticated`
-6. Send OTP 
-7. Verify OTP 
-8. Reset password
----
+| Method | Endpoint           | Description       |
+| ------ | ------------------ | ----------------- |
+| POST   | /api/auth/register | Register new user |
+| POST   | /api/auth/login    | Authenticate user |
 
-## Endpoint Summary
+## User
 
-| Method | Endpoint | Auth Required |
-|---------|----------|---------------|
-| POST | /register | No |
-| POST | /login | No |
-| GET | /profile | Yes |
-| GET | /is-authenticated | Yes |
-| POST | /send-reset-otp | No |
-| POST | /reset-password | No |
-| POST | /send-otp | Yes |
-| POST | /verify-otp | Yes |
-| GET | /test | Yes |
+| Method | Endpoint          | Description            |
+| ------ | ----------------- | ---------------------- |
+| GET    | /api/user/profile | Get authenticated user |
 
 ---
 
