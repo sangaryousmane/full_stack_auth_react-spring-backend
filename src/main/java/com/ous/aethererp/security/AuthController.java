@@ -9,6 +9,7 @@ import com.ous.aethererp.jwtUtils.JWTUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,6 +27,7 @@ import java.util.Map;
 import static org.springframework.http.HttpStatus.*;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
@@ -124,6 +126,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletResponse response){
+        log.info("Logging out now.......");
         ResponseCookie cookie= ResponseCookie.from("jwt", "")
                 .httpOnly(true)
                 .secure(false)
@@ -131,6 +134,7 @@ public class AuthController {
                 .maxAge(0)
                 .sameSite("Strict")
                 .build();
+        log.info("Logging out successfully!!");
         return ResponseEntity.ok()
                 .header(HttpHeaders.COOKIE, cookie.toString())
                 .body("Logged out successfully");

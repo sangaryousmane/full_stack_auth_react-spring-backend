@@ -106,7 +106,6 @@ public class ProfileServiceImpl implements ProfileService{
         // Calculate expiry time (current time 15 mins in milliseconds)
         long expiryTime = System.currentTimeMillis() + (24 * 60 * 60 * 1000);
 
-
         // Update the profile / user
         existingUser.setVerifyOTP(otp);
         existingUser.setVerifyExpiredAt(expiryTime);
